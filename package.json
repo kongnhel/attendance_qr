@@ -1,0 +1,33 @@
+{
+  "name": "qr-attendance",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=production && node server.js",
+    "dev": "set NODE_ENV=development && nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.6.1",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.0.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.22.4",
+    "nodemon": "^3.1.14",
+    "qrcode": "^1.5.4",
+    "winston": "^3.11.0"
+  }
+}
