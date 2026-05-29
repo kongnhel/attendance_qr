@@ -42,7 +42,7 @@ router.post(
     body("gender")
       .notEmpty()
       .withMessage("Gender is required")
-      .isIn(["male", "female", "other", "Male", "Female"]) // ✅ បន្ថែមអក្សរធំ "Male", "Female" ព្រោះ Client របស់បងបម្លែងពីភាសាខ្មែរទៅជាអក្សរធំ
+      .isIn(["male", "female", "other", "Male", "Female", "Other"])
       .withMessage("Invalid gender"),
     body("age")
       .trim()
@@ -90,7 +90,7 @@ router.put(
     body("gender")
       .notEmpty()
       .withMessage("Gender is required")
-      .isIn(["male", "female", "other", "Male", "Female"]) // ✅ បន្ថែម "Male", "Female" ការពារកុំឱ្យជាប់ Validator របស់ Express
+      .isIn(["male", "female", "other", "Male", "Female", "Other"])
       .withMessage("Invalid gender"),
     body("age") // ✅ បានបន្ថែមការពិនិត្យផ្ទៀងផ្ទាត់អាយុ (Age Validation) សម្រាប់ផ្លូវ Update យ៉ាងត្រឹមត្រូវ
       .trim()

@@ -32,7 +32,7 @@ router.post(
     body("gender")
       .notEmpty()
       .withMessage("Gender is required")
-      .isIn(["male", "female", "other", "Male", "Female"]) // ✅ បន្ថែមអក្សរធំ ការពារករណី Frontend បញ្ជូនទិន្នន័យមកខុសទម្រង់
+      .isIn(["male", "female", "other", "Male", "Female", "Other"])
       .withMessage("Invalid gender"),
     body("age") // ✅ បានបន្ថែមការពិនិត្យផ្ទៀងផ្ទាត់អាយុ (Age Validation) សម្រាប់ទម្រង់ស្កេនវត្តមាន
       .trim()
