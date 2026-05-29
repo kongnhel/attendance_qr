@@ -337,9 +337,26 @@
                     </div>
                     <div class="page-btns">
                         <a href="/manager/list?page=<%= currentPage - 1 %>" class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>"><i class="fa-solid fa-chevron-left" style="font-size:11px"></i></a>
-                        <% for(let i = 1; i <= totalPages; i++) { %>
-                            <a href="/manager/list?page=<%= i %>" class="page-btn <%= currentPage === i ? 'active' : '' %>"><%= i %></a>
-                        <% } %>
+                        <% 
+                          let pages = [];
+                          if (totalPages <= 7) {
+                            for (let i = 1; i <= totalPages; i++) pages.push(i);
+                          } else {
+                            pages.push(1);
+                            if (currentPage > 3) pages.push('...');
+                            for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                              pages.push(i);
+                            }
+                            if (currentPage < totalPages - 2) pages.push('...');
+                            pages.push(totalPages);
+                          }
+                          pages.forEach(p => { %>
+                            <% if (p === '...') { %>
+                              <span class="page-btn disabled" style="pointer-events:none;border:none">...</span>
+                            <% } else { %>
+                              <a href="/manager/list?page=<%= p %>" class="page-btn <%= currentPage === p ? 'active' : '' %>"><%= p %></a>
+                            <% } %>
+                          <% }); %>
                         <a href="/manager/list?page=<%= currentPage + 1 %>" class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>"><i class="fa-solid fa-chevron-right" style="font-size:11px"></i></a>
                     </div>
                 </div>

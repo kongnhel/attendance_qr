@@ -32,35 +32,53 @@
 
     if (btnExport) {
         btnExport.addEventListener('click', function() {
-            if (!records || records.length === 0) {
-                Swal.fire({ icon: 'info', title: 'No Data', text: 'No records to export.' });
-                return;
-            }
+            btnExport.disabled = true;
+            btnExport.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Exporting...';
 
-            var exportData = records.map(function(r, i) {
-                return {
-                    'No.': i + 1,
-                    'Name': r.name,
-                    'Gender': r.gender,
-                    'Age': r.age,
-                    'Phone': r.phone,
-                    'Place': r.place,
-                    'Date': r.date,
-                    'Time': r.time
-                };
-            });
+            fetch('/manager/export')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (!data.success || !data.records || data.records.length === 0) {
+                        Swal.fire({ icon: 'info', title: 'No Data', text: 'No records to export.' });
+                        btnExport.disabled = false;
+                        btnExport.innerHTML = '<i class="fa-solid fa-file-excel"></i> Export Excel';
+                        return;
+                    }
 
-            var ws = XLSX.utils.json_to_sheet(exportData);
-            var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Attendance');
+                    var exportData = data.records.map(function(r, i) {
+                        return {
+                            'No.': i + 1,
+                            'Name': r.name,
+                            'Gender': r.gender,
+                            'Age': r.age,
+                            'Phone': r.phone,
+                            'Place': r.place,
+                            'Date': r.date,
+                            'Time': r.time
+                        };
+                    });
 
-            var colWidths = Object.keys(exportData[0]).map(function(key) {
-                return { wch: Math.max(key.length, Math.max.apply(null, exportData.map(function(r) { return String(r[key]).length; }))) + 2 };
-            });
-            ws['!cols'] = colWidths;
+                    var ws = XLSX.utils.json_to_sheet(exportData);
+                    var wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'Attendance');
 
-            var today = new Date().toISOString().slice(0, 10);
-            XLSX.writeFile(wb, 'attendance_' + today + '.xlsx');
+                    var colWidths = Object.keys(exportData[0]).map(function(key) {
+                        return { wch: Math.max(key.length, Math.max.apply(null, exportData.map(function(r) { return String(r[key]).length; }))) + 2 };
+                    });
+                    ws['!cols'] = colWidths;
+
+                    var today = new Date().toISOString().slice(0, 10);
+                    XLSX.writeFile(wb, 'attendance_' + today + '.xlsx');
+
+                    btnExport.disabled = false;
+                    btnExport.innerHTML = '<i class="fa-solid fa-file-excel"></i> Export Excel';
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    Swal.fire({ icon: 'error', title: 'Error', text: 'Failed to export data.' });
+                    btnExport.disabled = false;
+                    btnExport.innerHTML = '<i class="fa-solid fa-file-excel"></i> Export Excel';
+                });
         });
     }
 })();

@@ -23,6 +23,12 @@ router.get("/qr", isAdmin, attendanceController.getQRPage);
 router.get("/list", isAdmin, csrfProtection, managerController.getList);
 
 /**
+ * GET /manager/export
+ * Export all attendance records as JSON (protected)
+ */
+router.get("/export", isAdmin, managerController.exportAll);
+
+/**
  * POST /manager/create
  * Create new attendance record (protected)
  */

@@ -195,9 +195,32 @@ const deleteRecord = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ * Export All Attendance Records (no pagination)
+ */
+const exportAll = asyncHandler(async (req, res) => {
+  const sql = `
+    SELECT id, name, gender, age, phone, place,
+           DATE_FORMAT(created_at, '%Y-%m-%d') as date,
+           DATE_FORMAT(created_at, '%H:%i:%s') as time
+    FROM attendance
+    WHERE is_deleted = 0
+    ORDER BY created_at ASC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      logger.error("Export query error:", err);
+      return res.status(500).json({ success: false, message: "Export failed" });
+    }
+    res.json({ success: true, records: results });
+  });
+});
+
 module.exports = {
   getList,
   createRecord,
   updateRecord,
   deleteRecord,
+  exportAll,
 };
