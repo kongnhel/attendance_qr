@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
       body{
@@ -141,7 +140,7 @@
       .page-btn.disabled{opacity:.4;pointer-events:none}
 
       .modal-overlay{
-        position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);
+        position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.4);
         display:none;align-items:center;justify-content:center;padding:16px;
       }
       .modal-overlay.show{display:flex}
@@ -191,6 +190,14 @@
       .m-info-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#64748b}
       .m-info-item i{font-size:10px;color:#94a3b8;width:12px;text-align:center}
 
+      /* Performance: disable heavy animations on low-end devices */
+      @media(prefers-reduced-motion:reduce){
+        *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+        .page-bg::before,.page-bg::after{animation:none !important}
+      }
+      @media(prefers-reduced-motion:reduce),(max-width:480px){
+        .card-up,.fadeUp,.fieldUp,.cardUp{animation:none !important;opacity:1 !important;transform:none !important}
+      }
       @media(max-width:768px){
         .desktop-table{display:none}
         .mobile-list{display:block}
@@ -220,7 +227,7 @@
 
         <div class="header-card">
             <div class="header-title">
-                <div class="header-icon"><img src="/images/logo.jpg" alt="Logo" /></div>
+                <div class="header-icon"><img src="/images/logo.jpg" alt="Logo" loading="lazy" width="44" height="44" /></div>
                 <div>
                     <h1><%= __('list_title') %></h1>
                     <p><%= __('list_total') %> <span class="badge"><i class="fa-solid fa-database"></i> <%= totalRecords %></span></p>

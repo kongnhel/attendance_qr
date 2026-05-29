@@ -9,8 +9,9 @@ const connectionConfig = {
   database: config.DB_NAME,
   port: config.DB_PORT,
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: config.isProduction() ? 2 : 5,
   queueLimit: 0,
+  idleTimeout: 60000,
 };
 
 // Aiven and other cloud databases require SSL

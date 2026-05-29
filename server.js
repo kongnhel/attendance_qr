@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const path = require("path");
@@ -41,6 +42,10 @@ const languages = {
 // Create Express app
 const app = express();
 app.set("trust proxy", 1); // Trust first proxy (Render, Heroku, etc.)
+
+// Enable gzip compression (critical for reducing response size on slow networks)
+app.use(compression());
+
 app.use(express.urlencoded({ extended: true }));
 
 // ================= 1. SESSION SETUP (ត្រូវដាក់ខាងលើគេបង្អស់) =================
@@ -62,8 +67,8 @@ app.use(
 app.use(securityHeaders); // Helmet security headers
 app.use(globalLimiter); // Rate limiting
 app.use(parseCookies); // Cookie parser (required for CSRF)
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" })); // រៀបចំអានទិន្នន័យពី Form
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" })); // រៀបចំអានទិន្នន័យពី Form
 
 // ================= 3. CSRF PROTECTION (ដកចេញពីលក្ខណៈ Global) =================
 // 💡 សម្គាល់៖ យើងមិនប្រើ app.use(csrfProtection) ជាលក្ខណៈទូទៅទៀតទេ 
@@ -85,9 +90,20 @@ if (config.isDevelopment()) {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, "assets")));
-app.use(express.static(path.join(__dirname, "public")));
+// Enable EJS template caching in production (reduces CPU usage)
+if (config.isProduction()) {
+  app.set("view cache", true);
+}
+
+// Serve static files with cache headers (reduces repeated downloads on mobile)
+app.use(express.static(path.join(__dirname, "assets"), {
+  maxAge: "7d", // Cache images for 7 days
+  etag: true,
+}));
+app.use(express.static(path.join(__dirname, "public"), {
+  maxAge: "1d", // Cache JS files for 1 day
+  etag: true,
+}));
 
 // ================= MULTI-LANGUAGE MIDDLEWARE =================
 app.use((req, res, next) => {

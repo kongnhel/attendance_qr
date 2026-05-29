@@ -6,7 +6,35 @@
 
   const modal = document.getElementById("crudModal");
   const form = document.getElementById("crudForm");
-  const csrfInput = document.getElementById("csrfInput"); // ✅ ចាប់យក Element ដែលផ្ទុកទិន្នន័យចាំបាច់
+  const csrfInput = document.getElementById("csrfInput");
+
+  // Lazy-load XLSX library only when export button is clicked
+  const btnExport = document.getElementById("btnExportExcel");
+  if (btnExport) {
+    btnExport.addEventListener("click", function () {
+      if (typeof XLSX !== "undefined") {
+        triggerExport();
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js";
+      script.onload = triggerExport;
+      document.head.appendChild(script);
+    });
+  }
+
+  function triggerExport() {
+    const recordsEl = document.getElementById("recordsData");
+    if (!recordsEl) return;
+    const records = JSON.parse(recordsEl.dataset.records || "[]");
+    if (!records.length) return;
+    const ws = XLSX.utils.json_to_sheet(records.map((r, i) => ({
+      "No.": i + 1, Name: r.name, Gender: r.gender, Age: r.age, Phone: r.phone, Place: r.place, Time: r.time
+    })));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+    XLSX.writeFile(wb, "attendance_export.xlsx");
+  }
 
   // ✅ ទាញយកអត្ថបទភាសា (Translations) ចេញពី HTML Data Attributes របស់ csrfInput ផ្ទាល់ (ដោះស្រាយបញ្ហា CSP 100%)
   const translations = {

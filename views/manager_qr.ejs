@@ -85,6 +85,13 @@
         animation:cardUp .5s ease-out .35s both;
       }
       .hint i{color:#3b82f6}
+      @media(prefers-reduced-motion:reduce){
+        *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+        body::before,body::after{animation:none !important}
+      }
+      @media(prefers-reduced-motion:reduce),(max-width:480px){
+        .card-up,.cardUp,.popIn,.fadeDown{animation:none !important;opacity:1 !important;transform:none !important}
+      }
     </style>
   </head>
   <body data-qr-title="<%= __('qr_image_title') %>" data-qr-instruction="<%= __('qr_image_instruction') %>">
@@ -92,7 +99,7 @@
       <%- include('navbar') %>
       <div class="content">
         <div class="card">
-          <div class="icon-ring"><img src="/images/logo.jpg" alt="Logo" /></div>
+          <div class="icon-ring"><img src="/images/logo.jpg" alt="Logo" loading="lazy" width="80" height="80" /></div>
           <h2><%= __('qr_title') %></h2>
           <p><%= __('qr_subtitle') %></p>
 
@@ -101,7 +108,7 @@
             <span class="corner tr"></span>
             <span class="corner bl"></span>
             <span class="corner br"></span>
-            <img id="qrImage" src="<%= qrCodeDataUrl %>" alt="Attendance QR Code" />
+            <img id="qrImage" src="<%= qrCodeDataUrl %>" alt="Attendance QR Code" loading="lazy" width="220" height="220" />
           </div>
 
           <div class="btn-row">

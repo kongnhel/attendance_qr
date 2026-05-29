@@ -126,6 +126,13 @@
       }
       .footer-note i{color:#22c55e}
 
+      @media(prefers-reduced-motion:reduce){
+        *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+        body::before,body::after{animation:none !important}
+      }
+      @media(prefers-reduced-motion:reduce),(max-width:480px){
+        .card-up,.fadeDown,.cardUp,.popIn,.fieldUp{animation:none !important;opacity:1 !important;transform:none !important}
+      }
       @media(max-width:400px){
         .card{padding:36px 20px 28px}
         .brand-bar h1{font-size:19px}
@@ -135,7 +142,7 @@
   <body>
     <div class="wrapper">
       <div class="brand-bar">
-        <div class="logo"><img src="/images/logo.jpg" alt="Logo" /></div>
+        <div class="logo"><img src="/images/logo.jpg" alt="Logo" loading="lazy" width="80" height="80" /></div>
         <h1>QR Attendance</h1>
         <p>ប្រព័ន្ធកត់ត្រាវត្តមាន</p>
       </div>

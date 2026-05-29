@@ -23,7 +23,7 @@
         padding: 20px;
         background: linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 30%, #f0f9ff 70%, #eff6ff 100%);
         position: relative;
-        overflow: hidden;
+        overflow-x: hidden;
       }
       body::before {
         content: '';
@@ -69,7 +69,7 @@
       .card {
         background: #ffffff;
         border-radius: 24px;
-        padding: 36px 32px 32px;
+        padding: 36px 32px 36px;
         box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03), 0 20px 50px -12px rgba(0,0,0,0.06);
         border: 1px solid rgba(0,0,0,0.04);
         animation: cardUp .5s ease-out .1s both;
@@ -146,11 +146,18 @@
       .btn-submit:active { transform:translateY(0); }
 
       .footer-note {
-        text-align:center; margin-top:20px; color:#94a3b8; font-size:11px;
+        text-align:center; margin-top:20px; margin-bottom:20px; color:#94a3b8; font-size:11px;
         animation:fieldUp .4s ease-out .5s both;
       }
       .footer-note i { color:#22c55e; }
 
+      @media(prefers-reduced-motion:reduce){
+        *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+        body::before,body::after{animation:none !important}
+      }
+      @media(prefers-reduced-motion:reduce),(max-width:480px){
+        .card-up,.fadeDown,.cardUp,.fieldUp{animation:none !important;opacity:1 !important;transform:none !important}
+      }
       @media(max-width:400px){
         .card{padding:28px 20px 24px}
         .form-row{grid-template-columns:1fr}
@@ -161,7 +168,7 @@
   <body>
     <div class="wrapper">
       <div class="brand-bar">
-        <div class="logo"><img src="/images/logo.jpg" alt="Logo" /></div>
+        <div class="logo"><img src="/images/logo.jpg" alt="Logo" loading="lazy" width="80" height="80" /></div>
         <h1>QR Attendance</h1>
         <p>ប្រព័ន្ធកត់ត្រាវត្តមាន</p>
       </div>
