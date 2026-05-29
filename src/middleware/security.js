@@ -81,7 +81,7 @@ const loginLimiter = rateLimit({
 /**
  * CSRF Protection Middleware
  */
-const csrfProtection = csrf({ cookie: { httpOnly: true, sameSite: "strict" } });
+const csrfProtection = csrf({ cookie: { httpOnly: true, sameSite: "lax" } });
 
 /**
  * Cookie Parser Middleware

@@ -163,7 +163,7 @@
             <div class="info-icon blue"><i class="fa-solid fa-clock"></i></div>
             <div>
               <div class="info-label">ពេលវេលា</div>
-              <div class="info-value" id="currentTime"></div>
+              <div class="info-value"><%= typeof currentTime !== 'undefined' ? currentTime : '' %></div>
             </div>
           </div>
 
@@ -171,7 +171,7 @@
             <div class="info-icon purple"><i class="fa-solid fa-calendar"></i></div>
             <div>
               <div class="info-label">ថ្ងៃនេះ</div>
-              <div class="info-value" id="currentDate"></div>
+              <div class="info-value"><%= typeof currentDate !== 'undefined' ? currentDate : '' %></div>
             </div>
           </div>
 
@@ -208,13 +208,5 @@
         <i class="fa-solid fa-shield-halved"></i> ទិន្នន័យរបស់អ្នកត្រូវបានការពារដោយសុវត្ថិភាព
       </div>
     </div>
-
-    <script>
-      var now = new Date();
-      var timeEl = document.getElementById('currentTime');
-      var dateEl = document.getElementById('currentDate');
-      if (timeEl) timeEl.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
-      if (dateEl) dateEl.textContent = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-    </script>
   </body>
 </html>

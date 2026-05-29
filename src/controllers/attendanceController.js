@@ -8,7 +8,7 @@ const { asyncHandler } = require("../middleware/errorHandler");
 const checkDuplicate = (phone, callback) => {
   const sql = `
     SELECT id FROM attendance 
-    WHERE phone = ? AND DATE(created_at) = CURDATE() AND is_deleted = 0
+    WHERE phone = ? AND DATE(CONVERT_TZ(created_at, '+00:00', '+07:00')) = DATE(CONVERT_TZ(NOW(), '+00:00', '+07:00')) AND is_deleted = 0
     LIMIT 1
   `;
   db.query(sql, [phone], callback);
@@ -28,6 +28,8 @@ const submitAttendance = asyncHandler(async (req, res) => {
       return res.render("success", {
         success: false,
         message: "An error occurred",
+        currentTime: '',
+        currentDate: '',
       });
     }
 
@@ -36,6 +38,8 @@ const submitAttendance = asyncHandler(async (req, res) => {
       return res.render("success", {
         success: false,
         message: "You have already checked in today",
+        currentTime: '',
+        currentDate: '',
       });
     }
 
@@ -52,6 +56,8 @@ const submitAttendance = asyncHandler(async (req, res) => {
         return res.render("success", {
           success: false,
           message: "Failed to save attendance",
+          currentTime: '',
+          currentDate: '',
         });
       }
 
@@ -63,10 +69,16 @@ const submitAttendance = asyncHandler(async (req, res) => {
         recordId: result.insertId,
       });
 
+      const now = new Date();
+      const cambodiaTime = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Phnom_Penh', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const cambodiaDate = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Phnom_Penh', year: 'numeric', month: '2-digit', day: '2-digit' });
+
       res.render("success", {
         success: true,
         message: `ស្វាគមន៍ ${name}! វត្តមានរបស់អ្នកត្រូវបានកត់ត្រារួចរាល់។`,
         name,
+        currentTime: cambodiaTime,
+        currentDate: cambodiaDate,
       });
     });
   });
@@ -112,7 +124,10 @@ const getFormPage = (req, res) => {
  * Get Success Page
  */
 const getSuccessPage = asyncHandler(async (req, res) => {
-  res.render("success");
+  const now = new Date();
+  const cambodiaTime = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Phnom_Penh', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const cambodiaDate = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Phnom_Penh', year: 'numeric', month: '2-digit', day: '2-digit' });
+  res.render("success", { currentTime: cambodiaTime, currentDate: cambodiaDate });
 });
 
 // សំខាន់៖ កុំប្រើ exports.getFormPage នៅខាងលើ

@@ -52,7 +52,7 @@ app.use(
     cookie: {
       secure: config.isProduction(), // HTTPS only in production
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: config.SESSION_MAX_AGE,
     },
   }),
