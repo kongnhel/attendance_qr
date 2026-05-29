@@ -40,6 +40,7 @@ const languages = {
 
 // Create Express app
 const app = express();
+app.set("trust proxy", 1); // Trust first proxy (Render, Heroku, etc.)
 app.use(express.urlencoded({ extended: true }));
 
 // ================= 1. SESSION SETUP (ត្រូវដាក់ខាងលើគេបង្អស់) =================
