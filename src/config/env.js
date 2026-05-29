@@ -14,6 +14,9 @@ module.exports = {
   DB_PORT: parseInt(process.env.DB_PORT) || 3306,
   DB_SSL: process.env.DB_SSLMODE === "REQUIRED",
 
+  // Public QR URL (always use this for QR code regardless of local/production)
+  QR_URL: process.env.QR_URL || "",
+
   // Session
   SESSION_SECRET:
     process.env.SESSION_SECRET || "default_secret_change_this_immediately",

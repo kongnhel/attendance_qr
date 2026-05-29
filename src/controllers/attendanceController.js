@@ -80,9 +80,9 @@ const getQRPage = asyncHandler(async (req, res) => {
   const config = require("../config/env");
 
   try {
-    const isLocal = config.APP_HOST.includes("localhost");
-    const protocol = isLocal ? "http" : "https";
-    const formUrl = `${protocol}://${config.APP_HOST}/scan`;
+    const formUrl = config.QR_URL
+      ? config.QR_URL
+      : `http://${config.APP_HOST}:${config.PORT}/scan`;
     const qrCodeDataUrl = await qrcode.toDataURL(formUrl);
 
     res.render("manager_qr", { qrCodeDataUrl });
