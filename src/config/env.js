@@ -6,11 +6,13 @@ module.exports = {
   PORT: process.env.PORT || 3000,
   APP_HOST: process.env.APP_HOST || "localhost",
 
-  // Database
+  // Database (supports both naming styles: DB_USER or DB_USERNAME)
   DB_HOST: process.env.DB_HOST || "localhost",
-  DB_USER: process.env.DB_USER || "root",
-  DB_PASS: process.env.DB_PASS || "",
-  DB_NAME: process.env.DB_NAME || "qr_attendance_db",
+  DB_USER: process.env.DB_USER || process.env.DB_USERNAME || "root",
+  DB_PASS: process.env.DB_PASS || process.env.DB_PASSWORD || "",
+  DB_NAME: process.env.DB_NAME || process.env.DB_DATABASE || "qr_attendance_db",
+  DB_PORT: parseInt(process.env.DB_PORT) || 3306,
+  DB_SSL: process.env.DB_SSLMODE === "REQUIRED",
 
   // Session
   SESSION_SECRET:

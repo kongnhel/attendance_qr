@@ -2,15 +2,25 @@ const mysql = require("mysql2");
 const config = require("./env");
 const logger = require("../utils/logger");
 
-const db = mysql.createConnection({
+const connectionConfig = {
   host: config.DB_HOST,
   user: config.DB_USER,
   password: config.DB_PASS,
   database: config.DB_NAME,
+  port: config.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-});
+};
+
+// Aiven and other cloud databases require SSL
+if (config.DB_SSL) {
+  connectionConfig.ssl = {
+    rejectUnauthorized: false,
+  };
+}
+
+const db = mysql.createConnection(connectionConfig);
 
 db.connect((err) => {
   if (err) {

@@ -32,11 +32,11 @@ const getList = asyncHandler(async (req, res) => {
       // Get paginated records (✅ បានរួមបញ្ចូល column 'age' ត្រឹមត្រូវ)
       const sql = `
       SELECT id, name, gender, age, phone, place, 
-             DATE_FORMAT(created_at, "%Y-%m-%d") as date,
-             DATE_FORMAT(created_at, "%H:%i:%s") as time
+             DATE_FORMAT(created_at, '%Y-%m-%d') as date,
+             DATE_FORMAT(created_at, '%H:%i:%s') as time
       FROM attendance
       WHERE is_deleted = 0
-      ORDER BY created_at DESC
+      ORDER BY created_at ASC
       LIMIT ? OFFSET ?
     `;
 

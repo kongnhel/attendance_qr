@@ -72,8 +72,7 @@
     document.getElementById("modalTitle").innerText = translations.addTitle;
     document.getElementById("recordId").value = "";
     form.reset();
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+    modal.classList.add("show");
   }
 
   function openEditModal(id, name, gender, age, phone, place) {
@@ -89,13 +88,11 @@
     document.getElementById("formAge").value = age || "";
     document.getElementById("formPhone").value = phone;
     document.getElementById("formPlace").value = place;
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+    modal.classList.add("show");
   }
 
   function closeModal() {
-    modal.classList.remove("flex");
-    modal.classList.add("hidden");
+    modal.classList.remove("show");
   }
 
   async function handleFormSubmit(e) {

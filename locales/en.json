@@ -49,5 +49,8 @@
   "qr_subtitle": "Please scan the QR code below to check in",
   "btn_download": "Download QR Code",
   "btn_share": "Share QR Code",
-  "qr_network_hint": "Make sure network is connected for successful check-in"
+  "qr_network_hint": "Make sure network is connected for successful check-in",
+  "qr_image_title": "Attendance QR Code",
+  "qr_image_instruction": "Scan this code to check in",
+  "btn_print": "Print QR Code"
 }
